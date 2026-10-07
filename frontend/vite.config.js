@@ -12,4 +12,20 @@ export default defineConfig({
       '/api': 'http://localhost:3000',
     },
   },
+  test: {
+    coverage: {
+      provider: 'v8',
+      // json-summary deja coverage-summary.json, que es lo que lee el pipeline
+      // para armar la tabla del Summary.
+      reporter: ['text', 'html', 'lcov', 'json-summary'],
+      // Que entra en la cuenta: la logica sin DOM (src/lib/). Un archivo nuevo
+      // en esa carpeta entra solo, tenga tests o no. Quedan afuera los
+      // componentes de React, main.jsx y api.js (el cableado del fetch real).
+      include: ['src/lib/**'],
+      // El umbral: si la cobertura de lineas o de ramas queda abajo de 90,
+      // vitest sale con error y el build se rompe. El porque del numero esta
+      // en decisiones.md (TP5).
+      thresholds: { lines: 90, branches: 90 },
+    },
+  },
 })
