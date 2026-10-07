@@ -2,10 +2,11 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
-"scripts": {
-  "dev": "nodemon index.js",
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "vitest",
+    "test:ci": "vitest run --coverage --coverage.reportsDirectory=${COVERAGE_DIR:-coverage}"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -16,6 +17,9 @@
   },
   "description": "",
   "devDependencies": {
-    "nodemon": "^3.1.14"
-  }
+    "@vitest/coverage-v8": "^5.0.3",
+    "nodemon": "^3.1.14",
+    "vitest": "^5.0.3"
+  },
+  "type": "module"
 }

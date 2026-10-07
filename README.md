@@ -64,6 +64,18 @@ decisiones.md  → decisiones técnicas de cada TP
 evidencias.md  → evidencia de funcionamiento de cada TP
 ```
 
+## Tests y cobertura
+
+Los tests son unitarios (vitest) y viven al lado del código: `backend/src/*.test.js` y `frontend/src/lib/*.test.js`. No necesitan base de datos ni backend levantado.
+
+```
+cd backend      # o: cd frontend
+npm ci
+npm test -- --run              # corre la suite una vez
+npm test -- --run --coverage   # además mide cobertura y aplica el umbral (reporte en coverage/index.html)
+```
+
+El pipeline corre lo mismo adentro de la etapa `test` de cada Dockerfile. Si un test falla o la cobertura queda abajo del umbral (90 % de líneas y de ramas), el check se pone rojo y el merge a `main` queda bloqueado.
 
 ## Estado del CI
 

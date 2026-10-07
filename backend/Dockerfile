@@ -5,7 +5,13 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 
-# ---- Etapa 2: imagen final, sin herramientas de desarrollo ----
+# ---- Etapa 2: tests (parte del build: ya tiene Node, el codigo y vitest) ----
+# No corre al construir: corre cuando el pipeline hace `docker run` de esta
+# etapa. Si un test falla o la cobertura no llega al umbral, sale con error.
+FROM build AS test
+ENTRYPOINT ["npm", "run", "test:ci"]
+
+# ---- Etapa 3: imagen final, sin herramientas de desarrollo ----
 FROM node:22-alpine
 WORKDIR /app
 COPY --from=build /app ./

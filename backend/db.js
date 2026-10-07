@@ -1,4 +1,7 @@
-const { Pool, types } = require('pg');
+// pg es un paquete CommonJS: se importa entero y se desarma.
+import pg from 'pg';
+
+const { Pool, types } = pg;
 
 // El OID 1114 es "timestamp without time zone". Por defecto el driver lo
 // convierte a un Date de JavaScript usando la zona horaria del proceso, lo que
@@ -10,4 +13,4 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-module.exports = pool;
+export default pool;

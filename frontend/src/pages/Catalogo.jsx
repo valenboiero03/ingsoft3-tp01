@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useOutletContext } from 'react-router-dom'
 import { getServicios } from '../api.js'
-import { duracion, horarioNegocio, moneda } from '../formato.js'
+import { TODOS, categoriasDe, filtrarPorCategoria } from '../lib/catalogo.js'
+import { duracion, horarioNegocio, moneda } from '../lib/formato.js'
 import estilos from './Catalogo.module.css'
-
-const TODOS = 'Todos'
 
 export default function Catalogo() {
   const negocio = useOutletContext()
@@ -21,14 +20,9 @@ export default function Catalogo() {
   // El catalogo de un negocio chico entra entero en memoria, asi que filtramos
   // aca en vez de pedirle al backend en cada clic. El endpoint igual acepta
   // ?categoria= por si algun dia el catalogo crece.
-  const categorias = useMemo(() => {
-    if (!servicios) return []
-    return [TODOS, ...new Set(servicios.map((s) => s.categoria))]
-  }, [servicios])
+  const categorias = useMemo(() => categoriasDe(servicios), [servicios])
 
-  const visibles = servicios?.filter(
-    (s) => categoria === TODOS || s.categoria === categoria,
-  )
+  const visibles = servicios && filtrarPorCategoria(servicios, categoria)
 
   return (
     <div className={estilos.contenedor}>
